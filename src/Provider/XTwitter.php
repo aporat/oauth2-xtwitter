@@ -123,10 +123,9 @@ final class XTwitter extends AbstractProvider
      * @return XTwitterResourceOwner
      */
     protected function createResourceOwner(
-        array       $response,
+        array $response,
         AccessToken $token
-    ): XTwitterResourceOwner
-    {
+    ): XTwitterResourceOwner {
         return new XTwitterResourceOwner($response);
     }
 
