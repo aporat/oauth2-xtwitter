@@ -2,7 +2,7 @@
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/aporat/oauth2-xtwitter.svg?logo=composer)](https://packagist.org/packages/aporat/oauth2-xtwitter)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
-[![codecov](https://codecov.io/github/aporat/oauth2-xtwitter/graph/badge.svg?token=YOURTOKEN)](https://codecov.io/github/aporat/oauth2-xtwitter)
+[![codecov](https://codecov.io/github/aporat/oauth2-xtwitter/graph/badge.svg?token=BHD3JZS4LQ)](https://codecov.io/github/aporat/oauth2-xtwitter)
 ![GitHub Actions Workflow Status](https://github.com/aporat/oauth2-xtwitter/actions/workflows/ci.yml/badge.svg)
 [![Total Downloads](https://img.shields.io/packagist/dt/aporat/oauth2-xtwitter.svg)](https://packagist.org/packages/aporat/oauth2-xtwitter)
 
@@ -33,6 +33,8 @@ if (!isset($_GET['code'])) {
     // If we don't have an authorization code then get one
     $authUrl = $provider->getAuthorizationUrl();
     $_SESSION['oauth2state'] = $provider->getState();
+    $_SESSION['oauth2pkceCode'] = $provider->getPkceCode();
+ 
     header('Location: ' . $authUrl);
     exit;
 } elseif (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
@@ -40,6 +42,8 @@ if (!isset($_GET['code'])) {
     unset($_SESSION['oauth2state']);
     exit('Invalid state');
 } else {
+    $provider->setPkceCode($_SESSION['oauth2pkceCode']);
+    
     // Try to get an access token (using the authorization code grant)
     $token = $provider->getAccessToken('authorization_code', [
         'code' => $_GET['code'],
