@@ -63,7 +63,7 @@ class XTwitter extends AbstractProvider
      */
     public function getResourceOwnerDetailsUrl(AccessToken $token): string
     {
-        return $this->apiDomain . '/2/users/me?user.fields=id,name,username,profile_image_url,confirmed_email';
+        return $this->apiDomain . '/2/users/me?user.fields=id,name,username,public_metrics,profile_image_url';
     }
 
     /**
